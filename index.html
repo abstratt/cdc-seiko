@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="node_modules/kirra-angular/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loading Kirra application...</title>
+
+  <script src="../abstratt-seiko/js/vendor/jquery/jquery.js"></script>
+
+  <script src="lib/lodash/lodash.min.js"></script>
+  <script src="lib/moment/moment.min.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
+  <script src="lib/angular-ui-uploader/uploader.min.js"></script>
+  <script src="lib/angular-bootstrap/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script src="lib/angular-bootstrap-lightbox/angular-bootstrap-lightbox.js"></script>
+  <script src="lib/angular-bootstrap-toggle/angular-bootstrap-toggle.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>    
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.5.2/metisMenu.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7/css/sb-admin-2.min.css">
+  <link rel="stylesheet" href="lib/angular-bootstrap-lightbox/angular-bootstrap-lightbox.min.css">
+  <link rel="stylesheet" href="lib/angular-bootstrap-toggle/angular-bootstrap-toggle.min.css">
+  <link id="bootstrap_theme" rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+
+	<link href="../abstratt-seiko/js/vendor/slick/slick.css" rel="stylesheet">
+	<link href="../abstratt-seiko/js/vendor/swiper/swiper.min.css" rel="stylesheet">
+	<link href="../abstratt-seiko/js/vendor/magnificpopup/dist/magnific-popup.css" rel="stylesheet">
+	<link href="../abstratt-seiko/js/vendor/nouislider/nouislider.css" rel="stylesheet">
+	<link href="../abstratt-seiko/js/vendor/darktooltip/dist/darktooltip.css" rel="stylesheet">
+	<link href="../abstratt-seiko/css/animate.css" rel="stylesheet">
+	<link href="../abstratt-seiko/css/style.css" rel="stylesheet">
+	<link href="../abstratt-seiko/css/style-color-green.css" rel="stylesheet">
+	<link href="../abstratt-seiko/css/megamenu.css" rel="stylesheet">
+	<link href="../abstratt-seiko/fonts/icomoon-reg/style.css" rel="stylesheet">
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css?family=Oswald:300,400,700|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Roboto:300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+
+  <script>
+    var kirraDefaultPageSize = 8;
+    // hardcoded location for application
+    var kirraApplicationPath = '/services/api-v2/demo-cloudfier-apps-cesta/';
+    // UI mappings
+    var kirraUIMappings = {
+        '_global': {
+            'roles': ['cesta.Cliente'],        
+            'views': {
+                'account-menu': {
+                    'template': 'templates/ecommerce/ecommerce-account-menu.html'
+                },
+                'instance-list-header':  {
+                    'template': 'templates/ecommerce/ecommerce-instance-list-header.html'
+                },
+                'header': {
+                    'template': 'templates/ecommerce/ecommerce-header.html'
+                },
+                'footer': {
+                    'template': '../../templates/test-footer.html'
+                },
+                'main': {
+                    'template': 'templates/ecommerce/ecommerce-main.html'
+                },
+                'dashboard':{
+                    'stateUrl': '/cesta.Produto/',
+                    'hide': true
+                }
+            },
+            'defaults': {
+                'entityMapping': {
+                    'cart.Cart': 'cesta.Cesta',
+                    'cart.Product': 'cesta.Produto'
+                }
+            }
+        },
+        'cesta.Produto': {
+            'roles': ['cesta.Cliente'],        
+		    'views': {
+		        'instance-table-desktop': {
+		            'template': 'templates/ecommerce/product-list.html'
+		        },
+		        'instance-table-mobile': {
+		            'template': 'templates/ecommerce/product-list.html'
+		        },
+                'instance-list-footer': {
+                    'template': 'templates/ecommerce/product-list-footer.html'
+                }
+		    },
+            'defaults': {
+                'actions': {
+                    'addToCart': 'adicionar'
+                },
+                'slotMapping': {
+                    'productPrice': 'preço',
+                    'productImage': 'imagem',
+                    'productName': 'nome',
+                    'productCategory': 'categoria',
+                    'quantityInCart': 'naCesta',
+                    'productUnavailable': 'indisponível'
+                }
+            }
+    	},
+        'cesta.Cesta': {
+            'roles': ['cesta.Cliente'],
+		    'views': {
+		        'show-instance': {
+		            'template': 'templates/ecommerce/shopping-cart.html'
+		        }
+		    },
+            'defaults': {
+                'actions': {
+                    'emptyCart': 'esvaziar',
+                    'beginOrder': 'entregarEmCasa'
+                },
+                'slotMapping': {
+                    'total': 'totalEstimado',
+                    'itemCount': 'númeroDeÍtens'                    
+                },
+                'edgeMapping': {
+                    'cartItems': {
+                        'relationship': 'ítens',
+                        'slotMapping': {
+                            'productImage': 'imagemDoProduto',
+                            'productName': {
+                                slot: 'produto',
+                                mappingFn: function (link, propertyName, instance) {
+                                    return link.shorthand;
+                                }
+                            }, 
+                            'unitPrice': 'preçoUnitário',
+                            'subtotal': 'preçoEstimado',
+                            'quantity': 'quantidade',
+                            'productObjectId': {
+                                slot: 'produto',
+                                mappingFn: function (link, propertyName, instance) {
+                                    return link.objectId;
+                                }
+                            } 
+                        },
+                        'actions': {
+                            'more': 'mais',
+                            'less': 'menos',
+                            'removeItem': 'remover',
+                            'changeQuantity': 'alterar' 
+                        }
+
+                    }
+                }
+            }
+        }
+    };
+
+  </script>
+  
+  <script src="js/kirra-repository.js"></script>
+  <script src="js/kirra-ng.js"></script>
+  
+
+    <style type="text/css">
+    body {
+       font-size: 16px;
+    }
+    </style>
+  
+</head>
+<body ng-controller="KirraBaseCtrl" class="boxed">
+
+    <div ng-if="false" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; width: 230px; height: 100px; text-align: center;">
+            <div>
+                <p align="center">Loading application...</p>
+                <img src="images/loading66.gif">
+            </div>
+        </div>
+    </div>
+
+    <div ng-controller="KirraRepositoryCtrl" ng-include src="getTemplateUrl('main')">
+        <ka-singleton entity-name="cesta.Cesta" query-name="cestaAtiva"
+            watched-actions="cesta.Produto.adicionar,cesta.Cesta.*,cesta.ItemCesta.*"
+            name="cart"/>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUQJBhKMkuWFXWs695GPI5Wlm22ybONs0&libraries=places" async defer>
+    </script>
+
+	<!-- jQuery Scripts  -->
+	<script src="../abstratt-seiko/js/vendor/swiper/swiper.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/slick/slick.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/parallax/parallax.js"></script>
+	<script src="../abstratt-seiko/js/vendor/isotope/isotope.pkgd.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/magnificpopup/dist/jquery.magnific-popup.js"></script>
+	<script src="../abstratt-seiko/js/vendor/countdown/jquery.countdown.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/nouislider/nouislider.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/ez-plus/jquery.ez-plus.js"></script>
+	<script src="../abstratt-seiko/js/vendor/tocca/tocca.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/bootstrap-tabcollapse/bootstrap-tabcollapse.js"></script>
+	<script src="../abstratt-seiko/js/vendor/scrollLock/jquery-scrollLock.min.js"></script>
+	<script src="../abstratt-seiko/js/vendor/darktooltip/dist/jquery.darktooltip.js"></script>
+	<script src="../abstratt-seiko/js/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+	<script src="../abstratt-seiko/js/megamenu.js"></script>
+	<script src="../abstratt-seiko/js/app.js"></script>
+	
+	<script>
+	kirraModule.run(function($rootScope, $timeout) {
+    	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+            $('.mobilemenu').removeClass('active');
+            $('.header-cart').removeClass('active');
+            $('body').removeClass('fixed');
+    	});
+    	
+    	$rootScope.$on('applicationLoaded', function() {
+        	$timeout(function() {
+                doThemeCustomization();
+            }, 1000);
+    	    
+    	});
+	});
+	
+	
+/*
+    $(document).on('click','.mobilemenu-content',function(e) {
+        if( $(e.target).is('a') && ( $(e.target).attr('class') != 'dropdown-toggle' ) ) {
+            $('.mobilemenu').toggleClass('active');
+            $('.header-cart').toggleClass('active');
+            $('body').toggleClass('fixed');
+        }
+    });
+*/    
+	</script>
+	</body>
+</html>

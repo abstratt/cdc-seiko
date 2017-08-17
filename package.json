@@ -1,0 +1,29 @@
+{
+  "name": "cloudfier-apps-organicos",
+  "version": "0.1.0",
+  "keywords": [
+  ],
+  "author": {
+    "name": "Rafael Chaves",
+    "email": "rafael@abstratt.com",
+    "url": "http://abstratt.com"
+  },
+  "homepage": "http://abstratt.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.com/abstratt/cloudfier-apps"
+  },
+
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+
+  "dependencies": {
+    "kirra-angular": ">=0.1.0",
+    "abstratt-seiko": ">=0.1.0"
+  },
+  "devDependencies": {
+  },
+  "bundleDependencies": []
+}
