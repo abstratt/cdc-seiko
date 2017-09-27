@@ -92,6 +92,10 @@
     {
         '_roles': ['cesta_de_compras.Cliente', '_NO_ROLES'],
         '_global': {
+            'entityMapping': {
+                'cart.Cart': 'cesta_de_compras.Cesta',
+                'cart.Product': 'cesta_de_compras.Produto'
+            },
             'views': {
                 'account-menu': {
                     'template': 'templates/ecommerce/ecommerce-account-menu.html'
@@ -109,12 +113,6 @@
                     'stateUrl': '/cesta_de_compras.Produto/',
                     'hide': true
                 }
-            },
-            'defaults': {
-                'entityMapping': {
-                    'cart.Cart': 'cesta_de_compras.Cesta',
-                    'cart.Product': 'cesta_de_compras.Produto'
-                }
             }
         },
         'cesta_de_compras.Produto': {
@@ -130,32 +128,30 @@
                     'template': 'templates/ecommerce/product-list-footer.html'
                 }
 		    },
-            'defaults': {
-                'actions': {
-                    'addToCart': 'adicionar'
-                },
-                'queries': {
-                    'list': 'produtos'
-                },
-                'slotMapping': {
-                    'productPrice': 'preço',
-                    'productImage': 'imagem',
-                    'productName': 'nome',
-                    'productDescription': {
-                    	slot: 'unidade',
-                    	mappingFn: function (link) {
-                    		return link.values['abreviado'];
-                		}
-                	 },
-                    'productCategory': 'categoria',
-                    'productUnavailable': { 
-                        slot: 'disponível',
-                        mappingFn: function (disponível) {
-                    		return !disponível;
-                		}
-                     },
-                    'quantityInCart': 'naCesta'
-                }
+            'actions': {
+                'addToCart': 'adicionar'
+            },
+            'queries': {
+                'list': 'produtos'
+            },
+            'slotMapping': {
+                'productPrice': 'preço',
+                'productImage': 'imagem',
+                'productName': 'nome',
+                'productDescription': {
+                	slot: 'unidade',
+                	mappingFn: function (link) {
+                		return link.values['abreviado'];
+            		}
+            	 },
+                'productCategory': 'categoria',
+                'productUnavailable': { 
+                    slot: 'disponível',
+                    mappingFn: function (disponível) {
+                		return !disponível;
+            		}
+                 },
+                'quantityInCart': 'naCesta'
             }
     	},
         'cesta_de_compras.Cesta': {
@@ -165,55 +161,58 @@
 		            'template': 'templates/ecommerce/shopping-cart.html'
 		        }
 		    },
-            'defaults': {
-                'actions': {
-                    'emptyCart': 'esvaziar',
-                    'checkOut': 'concluirCompra'
-                },
-                'queries': {
-                    'current': 'minhaCesta'
-                },
-                'slotMapping': {
-                    'subtotal': 'totalProdutos',
-                    'extra': 'taxaDeEntrega',
-                    'total': 'totalEstimado',
-                    'itemCount': 'númeroDeÍtens'                    
-                },
-                'edgeMapping': {
-                    'cartItems': {
-                        'relationship': 'ítens',
-                        'slotMapping': {
-                            'productImage': 'imagemDoProduto',
-                            'productName': {
-                                slot: 'produto',
-                                mappingFn: function (link, propertyName, instance) {
-                                    return link.shorthand;
-                                }
-                            }, 
-                            'productDescription': {
-                            	slot: 'unidade',
-                            	mappingFn: function (link) {
-                            		return link['shorthand'];
-                        		}
-                        	 },
-                            'unitPrice': 'preçoUnitário',
-                            'subtotal': 'preçoEstimado',
-                            'quantity': 'quantidade',
-                            'productObjectId': {
-                                slot: 'produto',
-                                mappingFn: function (link, propertyName, instance) {
-                                    return link.objectId;
-                                }
-                            } 
-                        },
-                        'actions': {
-                            'more': 'mais',
-                            'less': 'menos',
-                            'removeItem': 'remover',
-                            'changeQuantity': 'alterar' 
-                        }
-
+            'labels': {
+                'show' : {
+                    'cart.Product.list': 'Continuar compras'
+                }
+            },
+            'actions': {
+                'emptyCart': 'esvaziar',
+                'checkOut': 'concluirCompra'
+            },
+            'queries': {
+                'current': 'minhaCesta'
+            },
+            'slotMapping': {
+                'subtotal': 'totalProdutos',
+                'extra': 'taxaDeEntrega',
+                'total': 'totalEstimado',
+                'itemCount': 'númeroDeÍtens'                    
+            },
+            'edgeMapping': {
+                'cartItems': {
+                    'relationship': 'ítens',
+                    'slotMapping': {
+                        'productImage': 'imagemDoProduto',
+                        'productName': {
+                            slot: 'produto',
+                            mappingFn: function (link, propertyName, instance) {
+                                return link.shorthand;
+                            }
+                        }, 
+                        'productDescription': {
+                        	slot: 'unidade',
+                        	mappingFn: function (link) {
+                        		return link['shorthand'];
+                    		}
+                    	 },
+                        'unitPrice': 'preçoUnitário',
+                        'subtotal': 'preçoEstimado',
+                        'quantity': 'quantidade',
+                        'productObjectId': {
+                            slot: 'produto',
+                            mappingFn: function (link, propertyName, instance) {
+                                return link.objectId;
+                            }
+                        } 
+                    },
+                    'actions': {
+                        'more': 'mais',
+                        'less': 'menos',
+                        'removeItem': 'remover',
+                        'changeQuantity': 'alterar' 
                     }
+
                 }
             }
         }
