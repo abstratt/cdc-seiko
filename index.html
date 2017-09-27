@@ -64,24 +64,32 @@
             'sign_up': "Cadastrar",
             'user': "Usuário"
         },
+        'all': "Tudo",
         'load_more_data': "Mais...",
         'loading_data_for': "Carregando dados de {entityName}",
         'no_data_found':  'Nenhum dado encontrado',
         'start_typing':  'Comece a digitar...',
+        'actions': "Ações",
+        'adding': "Adicionando",
+        'apply': "Aplicar",
         'edit': "Alterar",
+        'editing': "Alterando",
         'delete': "Excluir",
+        'child_edit': "Alterar {relationshipName}",
+        'child_delete': "Excluir {relationshipName}",        
         'cancel': "Cancelar",
+        'create': "Criar",
+        'creating': "Criando",
         'save': "Salvar",
-        'downloadAttachment': "Baixar",
-        'deleteAttachment': "Excluir",
-        'showAttachment': "Exibir",
-        'uploadAttachment': "Anexar",
-        'cancelAttachment': "Cancelar",
-
-
+        'download_attachment': "Baixar",
+        'delete_attachment': "Excluir",
+        'show_attachment': "Exibir",
+        'upload_attachment': "Anexar",
+        'cancel_attachment': "Cancelar",
     };
     // UI mappings
-    var kirraUIMappings = [{
+    var kirraUIMappings = [
+    {
         '_roles': ['cesta_de_compras.Cliente', '_NO_ROLES'],
         '_global': {
             'views': {
@@ -97,7 +105,7 @@
                 'main': {
                     'template': 'templates/ecommerce/ecommerce-main.html'
                 },
-                'dashboard':{
+               'dashboard':{
                     'stateUrl': '/cesta_de_compras.Produto/',
                     'hide': true
                 }
@@ -206,6 +214,22 @@
                         }
 
                     }
+                }
+            }
+        }
+    },
+    {
+        '_roles': ['cesta_de_compras.Lojista'],
+        '_global': {
+            'views': {
+                'header': {
+                    'template': 'templates/ecommerce/ecommerce-header.html'
+                }
+            },
+            'defaults': {
+                'entityMapping': {
+                    'cart.Cart': 'cesta_de_compras.Cesta',
+                    'cart.Product': 'cesta_de_compras.Produto'
                 }
             }
         }
