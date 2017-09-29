@@ -52,8 +52,14 @@
         'cart': {
             'recently_added_items': "Ítens adicionados",   
             'item': "item",
-            'items': "ítens"        
+            'items': "ítens",
+            'cart_empty_1': "Sua cesta",                  
+            'cart_empty_2': "está vazia"                  
         },
+        'order': {
+            'your_order': 'Pedido #{orderNumber}',
+            'details': 'Detalhes do pedido'
+        },      
         'user': {
             'already_a_user': "Já está cadastrado?",
             'click_to_log_in': "Clique aqui para entrar",
@@ -94,7 +100,8 @@
         '_global': {
             'entityMapping': {
                 'cart.Cart': 'cesta_de_compras.Cesta',
-                'cart.Product': 'cesta_de_compras.Produto'
+                'cart.Product': 'cesta_de_compras.Produto',
+                'cart.Order': 'cesta_de_compras.Pedido'
             },
             'views': {
                 'account-menu': {
@@ -112,6 +119,63 @@
                'dashboard':{
                     'stateUrl': '/cesta_de_compras.Produto/',
                     'hide': true
+                }
+            }
+        },
+        'cesta_de_compras.Pedido': {
+            'roles': ['cesta.Cliente'],        
+		    'views': {
+		        'show-instance': {
+		            'template': 'templates/ecommerce/order.html'
+		        }
+            },
+            'slotMapping': {
+                'orderNumber': 'identificador',
+                'orderDate': 'dataDoPedido',
+                'confirmationDate': 'dataDeConfirmação',
+                'orderStatus': 'status',
+                'orderStatusHelp': {
+                    slot: 'status',
+                    mappingFn: function (rawValue, propertyName, instance) {
+                        var entity = kirraNG.getEntity(instance.typeRef.fullName);
+                        var enumerationLiterals = entity.properties[propertyName].enumerationLiterals;
+                        var literalDescription = enumerationLiterals[rawValue].description;
+                        return literalDescription && literalDescription.replace('\\n', ' ');
+                    }
+                },
+                'subtotal': 'totalSemFrete',
+                'extra': 'taxaDeEntrega',
+                'total': 'total',
+                'itemCount': 'númeroDeÍtens',
+                'note': 'observações'                    
+            },
+            'edgeMapping': {
+                'orderItems': {
+                    'relationship': 'ítens',
+                    'slotMapping': {
+                        'productImage': 'imagemDoProduto',
+                        'productName': {
+                            slot: 'produto',
+                            mappingFn: function (link, propertyName, instance) {
+                                return link.shorthand;
+                            }
+                        }, 
+                        'productUnit': {
+                            slot: 'unidade',
+                            mappingFn: function (link) {
+                                return link['shorthand'];
+                            }
+                         },
+                        'productUnitPrice': 'preçoUnitário',
+                        'subtotal': 'preço',
+                        'quantity': 'quantidadeSolicitada',
+                        'productObjectId': {
+                            slot: 'produto',
+                            mappingFn: function (link, propertyName, instance) {
+                                return link.objectId;
+                            }
+                        } 
+                    }
                 }
             }
         },
