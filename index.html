@@ -92,6 +92,8 @@
         'show_attachment': "Exibir",
         'upload_attachment': "Anexar",
         'cancel_attachment': "Cancelar",
+        'login_failed': 'Usuário/senha incorretos, tente novamente',
+        'no_authorization': 'Usuário não tem autorização'
     };
     // UI mappings
     var kirraUIMappings = [
@@ -106,9 +108,6 @@
             'views': {
                 'account-menu': {
                     'template': 'templates/ecommerce/ecommerce-account-menu.html'
-                },
-                'instance-list-header':  {
-                    'template': 'templates/ecommerce/ecommerce-instance-list-header.html'
                 },
                 'header': {
                     'template': 'templates/ecommerce/ecommerce-header.html'
@@ -188,6 +187,9 @@
 		        'instance-table-mobile': {
 		            'template': 'templates/ecommerce/product-list.html'
 		        },
+                'instance-list-header':  {
+                    'template': 'templates/ecommerce/ecommerce-instance-list-header.html'
+                },
                 'instance-list-footer': {
                     'template': 'templates/ecommerce/product-list-footer.html'
                 }
