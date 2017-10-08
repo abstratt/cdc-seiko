@@ -44,7 +44,7 @@
     var kirraDefaultPageSize = 12;
     var kirraBasePath = 'node_modules/kirra-angular/';
     // hardcoded location for application
-    var kirraApplicationPath = '/services/api-v2/demo-cloudfier-apps-cesta-de-compras/';
+    var kirraApplicationPath = '/services/api-v2/demo-cesta-de-compras/';
     var kirraAppLabels = {
         'dashboard': {
             'view_details': 'Detalhes'    
@@ -102,6 +102,7 @@
         '_global': {
             'entityMapping': {
                 'cart.Cart': 'cesta_de_compras.Cesta',
+                'cart.CartItem': 'cesta_de_compras.ItemCesta',                
                 'cart.Product': 'cesta_de_compras.Produto',
                 'cart.Order': 'cesta_de_compras.Pedido'
             },
@@ -122,7 +123,7 @@
             }
         },
         'cesta_de_compras.Pedido': {
-            'roles': ['cesta.Cliente'],        
+            'roles': ['cesta_de_compras.Cliente'],        
 		    'views': {
 		        'show-instance': {
 		            'template': 'templates/ecommerce/order.html'
@@ -179,7 +180,7 @@
             }
         },
         'cesta_de_compras.Produto': {
-            'roles': ['cesta.Cliente'],        
+            'roles': ['cesta_de_compras.Cliente'],        
 		    'views': {
 		        'instance-table-desktop': {
 		            'template': 'templates/ecommerce/product-list.html'
@@ -221,7 +222,7 @@
             }
     	},
         'cesta_de_compras.Cesta': {
-            'roles': ['cesta.Cliente'],
+            'roles': ['cesta_de_compras.Cliente'],
 		    'views': {
 		        'show-instance': {
 		            'template': 'templates/ecommerce/shopping-cart.html'
@@ -294,6 +295,7 @@
             'defaults': {
                 'entityMapping': {
                     'cart.Cart': 'cesta_de_compras.Cesta',
+                    'cart.CartItem': 'cesta_de_compras.ItemDeCesta',
                     'cart.Product': 'cesta_de_compras.Produto'
                 }
             }
@@ -325,9 +327,6 @@
     </div>
 
     <div ng-controller="KirraRepositoryCtrl" ng-include src="getTemplateUrl('main')">
-        <ka-singleton entity-name="cesta_de_compras.Cesta" query-name="minhaCesta"
-            watched-actions="cesta_de_compras.Produto.adicionar,cesta_de_compras.Cesta.*,cesta_de_compras.ItemCesta.*"
-            name="cart"/>
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUQJBhKMkuWFXWs695GPI5Wlm22ybONs0&libraries=places" async defer>
     </script>
